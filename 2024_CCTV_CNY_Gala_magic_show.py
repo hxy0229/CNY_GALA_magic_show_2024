@@ -29,8 +29,8 @@ def good_luck_keep_keep_bad_luck_throw_throw(deck):
 def magic(deck):
     name_length = random.randint(1, 10) # 按照名字长度操作
     deck = rotate_list(deck, name_length)
-    deck, put_position_1 = put_in_middle(deck, 3)
-    # deck, put_position_1 = put_in_middle_shi_wu_ban(deck, 3) # 小泥失误版
+    # deck, put_position_1 = put_in_middle(deck, 3)
+    deck, put_position_1 = put_in_middle_shi_wu_ban(deck, 3) # 小泥失误版
     card_kept = deck[0]
     deck = deck[1:]
 
@@ -52,8 +52,10 @@ def magic(deck):
     # print("put_position_2", put_position_2)
     # print("gender_choice", gender_choice)
     remarks = "新年快乐！"
-    if card_kept != final_card:
+    if card_kept[0] != final_card[0]:
         remarks = "汗流浃背了吧小泥！"
+    if card_kept[1] == final_card[1]:
+        remarks += "wc背面也对不上！！！gg～"
 
 
     return {
@@ -82,12 +84,13 @@ gender_dict = {
 
 
 all_trials = []
-for _ in range(1000):
-    deck = ['a', 'b', 'c', 'd'] * 2
+for _ in range(100):
+    deck = ['a1', 'b1', 'c1', 'd1', 'a2', 'b2', 'c2', 'd2']
     new_result = magic(deck)
     all_trials.append(new_result)
-    if new_result["Card Kept"] != new_result["Final Card"]:
-        print("汗流浃背了吧小泥!")
+    print(new_result["Remarks"])
+    # if new_result["Card Kept"] != new_result["Final Card"]:
+    #     print("汗流浃背了吧小泥!")
     
 df = pd.DataFrame.from_records(all_trials)
 df.to_csv(f"sample_output/magic_{int(time.time())}.csv", index=False, encoding="utf-8-sig")
