@@ -26,11 +26,14 @@ def good_luck_keep_keep_bad_luck_throw_throw(deck):
         deck = rotate_list(deck, 1)[1:]
     return deck[0]
 
-def magic(deck):
+def magic(deck, error=False):
     name_length = random.randint(1, 10) # 按照名字长度操作
     deck = rotate_list(deck, name_length)
-    # deck, put_position_1 = put_in_middle(deck, 3)
-    deck, put_position_1 = put_in_middle_shi_wu_ban(deck, 3) # 小泥失误版
+    if error:
+        deck, put_position_1 = put_in_middle_shi_wu_ban(deck, 3)
+    else:
+        deck, put_position_1 = put_in_middle(deck, 3)
+    #  # 小泥失误版
     card_kept = deck[0]
     deck = deck[1:]
 
@@ -83,17 +86,26 @@ gender_dict = {
 }
 
 
+even_back_does_not_match_count = 0
+
+error = True # 小泥失误与否
 all_trials = []
-for _ in range(100):
+for _ in range(1000):
     deck = ['a1', 'b1', 'c1', 'd1', 'a2', 'b2', 'c2', 'd2']
-    new_result = magic(deck)
+    new_result = magic(deck, error)
     all_trials.append(new_result)
-    print(new_result["Remarks"])
+    if new_result["Remarks"].endswith("gg～"):
+        even_back_does_not_match_count += 1
+    # print(new_result["Remarks"])
     # if new_result["Card Kept"] != new_result["Final Card"]:
     #     print("汗流浃背了吧小泥!")
-    
+
+print(even_back_does_not_match_count/1000) 
 df = pd.DataFrame.from_records(all_trials)
-df.to_csv(f"sample_output/magic_{int(time.time())}.csv", index=False, encoding="utf-8-sig")
+if error:
+    df.to_csv(f"sample_output/failed_magic_{int(time.time())}.csv", index=False, encoding="utf-8-sig")
+else:
+    df.to_csv(f"sample_output/successful_magic_{int(time.time())}.csv", index=False, encoding="utf-8-sig")
 
 
         
