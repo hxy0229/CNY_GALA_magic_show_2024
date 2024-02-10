@@ -13,7 +13,7 @@ def put_in_middle(deck, put_count):
     put_position = random.randint(1, len(remaining_list)-1)
     return remaining_list[:put_position] + deck[:put_count] + remaining_list[put_position:], put_position
 
-def put_in_middle_shi_wu_ban(deck, put_count):
+def put_in_middle_shi_wu_ban(deck, put_count): # 小泥失误版, code quality重复太多可以改，但暂时不重要
     if put_count > len(deck) - 2:
         raise Exception("新年不要太贪！")
     remaining_list = deck[put_count:]
@@ -27,17 +27,17 @@ def good_luck_keep_keep_bad_luck_throw_throw(deck):
     return deck[0]
 
 def magic(deck):
-    name_length = random.randint(1, 10)
+    name_length = random.randint(1, 10) # 按照名字长度操作
     deck = rotate_list(deck, name_length)
     deck, put_position_1 = put_in_middle(deck, 3)
     # deck, put_position_1 = put_in_middle_shi_wu_ban(deck, 3) # 小泥失误版
     card_kept = deck[0]
     deck = deck[1:]
 
-    place_choice = random.randint(1, max(place_dict.keys()))
+    place_choice = random.randint(1, max(place_dict.keys())) # 在哪儿过年
     deck, put_position_2 = put_in_middle(deck, place_choice)
 
-    gender_choice = random.randint(1, max(gender_dict.keys()))
+    gender_choice = random.randint(1, max(gender_dict.keys())) # 你是mm还是gg
     deck = deck[gender_choice:]
 
     deck = rotate_list(deck, 7) # 见证奇迹的时刻
@@ -89,7 +89,6 @@ for _ in range(1000):
     if new_result["Card Kept"] != new_result["Final Card"]:
         print("汗流浃背了吧小泥!")
     
-
 df = pd.DataFrame.from_records(all_trials)
 df.to_csv(f"sample_output/magic_{int(time.time())}.csv", index=False, encoding="utf-8-sig")
 
