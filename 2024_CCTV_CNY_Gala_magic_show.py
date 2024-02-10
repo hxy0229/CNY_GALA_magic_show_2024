@@ -91,7 +91,7 @@ for _ in range(1000):
     
 
 df = pd.DataFrame.from_records(all_trials)
-df.to_csv(f"zhongguo_chunwan/magic_{int(time.time())}.csv", index=False, encoding="utf-8-sig")
+df.to_csv(f"sample_output/magic_{int(time.time())}.csv", index=False, encoding="utf-8-sig")
 
 
 # def random_deck()
